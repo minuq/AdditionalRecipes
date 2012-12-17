@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="all" name="AdditionalRecipes">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+	<property name="dir.src" value="src"/>
+	<property name="dir.build" value="bin"/>
+	<property name="dir.dist" value="dist"/>
+	<property name="dir.lib" value="lib"/>
+
+    <path id="AdditionalRecipes.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="${dir.lib}/bukkit-1.4.5-R0.3-20121216.060115-21.jar"/>
+    </path>
+	
+	<target name="all" depends="clean,build,makejar"/>
+	
+    <target name="init">
+        <mkdir dir="${dir.build}"/>
+    	<mkdir dir="${dir.dist}"/>
+    </target>
+    <target name="clean">
+        <delete dir="${dir.build}"/>
+    	<delete dir="${dir.dist}"/>
+    </target>
+	
+	
+    <target depends="init" name="build">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="${dir.build}" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="AdditionalRecipes.classpath"/>
+        </javac>
+    </target>
+	
+
+	<target name="makejar" depends="build">
+		<jar jarfile="${dir.dist}/AdditionalRecipes.jar">
+		<fileset dir="${dir.build}" includes="**/**/**/**/*.class"/>
+		<fileset dir="." includes="*.yml"/>
+		</jar>
+	</target>
+
+</project>
